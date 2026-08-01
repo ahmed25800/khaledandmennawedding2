@@ -145,19 +145,15 @@
   function startVideoScroll(){
     if (videoState.running) return;
     videoState.running = true;
-    videoState.speed = window.innerHeight / 6; // one screen every ~6s (slower)
+    videoState.speed = window.innerHeight / 8; // one screen every ~8s for smoother motion
     videoState.lastTime = performance.now();
     function tick(t){
       const dt = t - videoState.lastTime;
       videoState.lastTime = t;
       const delta = videoState.speed * (dt/1000);
       const maxY = document.documentElement.scrollHeight - window.innerHeight;
-      let nextY = Math.min(maxY, window.scrollY + delta);
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(nextY, {offset:0, duration:0.6});
-      } else {
-        window.scrollTo(0, nextY);
-      }
+      const nextY = Math.min(maxY, window.scrollY + delta);
+      window.scrollTo({top: nextY, left:0, behavior:'auto'});
       if (nextY >= maxY) { stopVideoScroll(); return; }
       videoState.rafId = requestAnimationFrame(tick);
     }

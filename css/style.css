@@ -9,8 +9,9 @@
 html,body{height:100%;background:var(--bg);color:#fff;font-family:'Noto Naskh Arabic', 'Playfair Display', serif;margin:0;-webkit-font-smoothing:antialiased}
 .viewport{max-width:var(--maxw);margin:0 auto;overflow:visible}
 main{width:100%}
-.panel{position:relative;height:100vh;display:flex;align-items:center;justify-content:center}
-.panel img{width:100%;height:100vh;display:block;object-fit:cover}
+html, body { -webkit-overflow-scrolling: touch; }
+.panel{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;will-change:transform,opacity}
+.panel img{width:100%;height:100vh;display:block;object-fit:cover;backface-visibility:hidden;transform:translateZ(0)}
 
 /* Welcome popup */
 #music-popup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:60;background:transparent}
