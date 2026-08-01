@@ -145,18 +145,17 @@
   function startVideoScroll(){
     if (videoState.running) return;
     videoState.running = true;
-    videoState.speed = window.innerHeight / 12; // one screen every ~12s for a softer flow
+    videoState.speed = window.innerHeight / 7; // one screen every ~7s for smoother but faster flow
+    videoState.position = window.scrollY;
     videoState.lastTime = performance.now();
     function tick(t){
       const dt = t - videoState.lastTime;
       videoState.lastTime = t;
       const delta = videoState.speed * (dt/1000);
       const maxY = document.documentElement.scrollHeight - window.innerHeight;
-      const currentY = window.scrollY;
-      const targetY = Math.min(maxY, currentY + delta);
-      const smoothY = currentY + (targetY - currentY) * 0.65;
-      window.scrollTo({top: smoothY, left:0, behavior:'auto'});
-      if (smoothY >= maxY) { stopVideoScroll(); return; }
+      videoState.position = Math.min(maxY, videoState.position + delta);
+      window.scrollTo({top: videoState.position, left:0, behavior:'auto'});
+      if (videoState.position >= maxY) { stopVideoScroll(); return; }
       videoState.rafId = requestAnimationFrame(tick);
     }
     videoState.rafId = requestAnimationFrame(tick);
